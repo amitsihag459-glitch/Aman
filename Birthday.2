@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura — Modern Digital Experience</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Global Reset & Theme Variables */
+    :root {
+      --bg-dark: #0a0a12;
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --secondary: #ec4899;
+      --accent: #06b6d4;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glow Mesh */
+    .glow-sphere {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .glow-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--primary);
+      top: -100px;
+      left: -100px;
+      animation: float 12s ease-in-out infinite alternate;
+    }
+
+    .glow-2 {
+      width: 400px;
+      height: 400px;
+      background: var(--secondary);
+      bottom: -50px;
+      right: -50px;
+      animation: float 10s ease-in-out infinite alternate-reverse;
+    }
+
+    /* Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5%;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 10, 18, 0.7);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      max-width: 900px;
+      letter-spacing: -1.5px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #4f46e5);
+      color: #fff;
+      box-shadow: 0 10px 25px var(--primary-glow);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px var(--primary-glow);
+    }
+
+    .btn-secondary {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Cards Grid Section */
+    .features {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      backdrop-filter: blur(20px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255,255,255,0.06), transparent 40%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Floating Animation Keyframes */
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(50px, 50px) scale(1.1); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-title { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Ambient Glows -->
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">AURA.</div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#" class="btn btn-secondary" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Get Started</a>
+  </nav>
+
+  <!-- Hero Banner -->
+  <section class="hero">
+    <div class="badge">✨ Next-Generation Digital Canvas</div>
+    <h1 class="hero-title">Crafting <span class="gradient-text">extraordinary</span> digital experiences</h1>
+    <p class="hero-sub">Empowering creators with cutting-edge visual aesthetics, ultra-fluid interactions, and futuristic user interfaces.</p>
+    
+    <div class="cta-group">
+      <button class="btn btn-primary" onclick="triggerEffect()">Explore Aura</button>
+      <a href="#features" class="btn btn-secondary">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Features Cards Section -->
+  <section class="features" id="features">
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Lightning Performance</h3>
+        <p>Built with modern CSS architectures designed for maximum frame rates and zero dynamic layout shifts.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💎</div>
+        <h3>Glassmorphism UI</h3>
+        <p>Real-time backdrop filters combined with multi-layered light dynamics for a tactile depth effect.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Fluid Dynamics</h3>
+        <p>Adaptive color gradients and intelligent hover-tracking interactions that respond to user motion.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Mouse Glow Tracking on Cards
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // Interactive Button Ripple / Glow Action
+    function triggerEffect() {
+      const glow1 = document.querySelector('.glow-1');
+      const glow2 = document.querySelector('.glow-2');
+      
+      glow1.style.background = '#ec4899';
+      glow2.style.background = '#06b6d4';
+      
+      setTimeout(() => {
+        glow1.style.background = '#6366f1';
+        glow2.style.background = '#ec4899';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
